@@ -1,3 +1,3 @@
-# Coding Challange #56 - Attraction and Repulsion Forces
+# Coding Challenge #56 - Attraction and Repulsion Forces
 
 #Netbeans project

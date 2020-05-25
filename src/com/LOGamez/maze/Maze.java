@@ -155,7 +155,7 @@ public class Maze {
         {1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1},
         {1,0,0,0,1,0,1,0,1,1,6,6,1,1,0,1,0,1,0,0,0,1},
         {1,1,1,1,1,0,1,0,1,0,0,0,0,1,0,1,0,1,1,1,1,1},
-        {0,0,0,0,0,0,0,0,1,0,0,7,0,1,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,1,0,0,7,0,1,0,0,0,0,0,0,0,1},
         {1,0,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1},
         {1,0,0,0,0,0,1,0,0,0,0,9,0,0,0,1,0,0,0,0,0,1},
         {1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1},
@@ -228,7 +228,7 @@ public class Maze {
         
         setUp();
         
-        init();
+        //init();
     }
     
     
@@ -251,7 +251,7 @@ public class Maze {
         //Setup variables here for Maze 1
         //maze = mazeWalls;
         
-        //init();
+        init();
 
 //        //Test Depth First
 //        DepthFirst.searchPath(maze, 10, 4, path);
@@ -262,11 +262,7 @@ public class Maze {
         System.out.println("Maze: Initiating Maze");
         Texture.clearMaps();
         
-//        for(int row = 0; row < mazeDefault.length; row++){
-//            for(int col = 0; col < mazeDefault[0].length; col++){
-//                put(mazeDefault[row][col], row, col);
-//            }
-//        }
+
         
 //        for(int row = 0; row < maze1.length; row++){
 //            for(int col = 0; col < maze1[0].length; col++){
@@ -275,13 +271,19 @@ public class Maze {
 //        }
         
         //Test Depth First
-        DepthFirst.searchPath(maze, 0, 0, path);
+        DepthFirst.searchPath(maze, 1, 1, path);
         System.out.println("Path size: "+path.size());
         System.out.println(path);
         System.out.println("Maze Dimensions: (W x H) "+maze[0].length+" x "+maze.length);
         System.out.println("Maze No. of Blocks: "+maze[0].length * maze.length);
-        System.out.println("Maze start: "+get(11, 11));
-
+        System.out.println("Maze start: "+get(1, 1));
+        
+        for(int row = 0; row < mazeDefault.length; row++){
+            for(int col = 0; col < mazeDefault[0].length; col++){
+                put(mazeDefault[row][col], row, col);
+            }
+        }
+        
         firstTick = true;
         lastTick = false;
     }
@@ -337,14 +339,16 @@ public class Maze {
                 }
             }
             
-            for(int p = 0; p < path.size(); p += 2){
-                int pathX = path.get(p);
-                int pathY = path.get(p+1);
-                
-                g2d_Maze.setColor(Color.GREEN);
-                g2d_Maze.fillRect(pathX, pathY, 25, 27);
-            }
             
+            
+        }
+        
+        for(int p = 0; p < path.size(); p += 2){
+            int pathX = path.get(p);
+            int pathY = path.get(p+1);
+
+            g2d_Maze.setColor(Color.GREEN);
+            g2d_Maze.fillRect(pathX*25, pathY*27, 25, 27);
         }
     
         g2d.setTransform(oldXForm);

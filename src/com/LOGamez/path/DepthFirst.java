@@ -15,7 +15,7 @@ import java.util.List;
 public class DepthFirst {
     
     public static boolean searchPath(int[][] maze, int x, int y, List<Integer> path){
-        System.out.println("DepthFirst: Maze "+maze+" created");
+        System.out.println("DepthFirst: Maze "+maze.length+" created");
         
         
         //Check if Target node reached

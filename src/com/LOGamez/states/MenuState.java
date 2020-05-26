@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 /**
  * @author Ghomez
@@ -62,7 +63,7 @@ public class MenuState implements State {
     private final BufferedImage playOnBtn;
     
     /**playBtnX BufferedImage of MenuState*/
-    private int playBtnX = 156;
+    private int playBtnX = 226;
     
     /**playBtnY BufferedImage of MenuState*/
     private int playBtnY = 248;
@@ -82,7 +83,7 @@ public class MenuState implements State {
     private final BufferedImage optionsOnBtn;
     
     /**optionsBtnX BufferedImage of MenuState*/
-    private int optionsBtnX = 106;
+    private int optionsBtnX = 176;
     
     /**optionsBtnY BufferedImage of MenuState*/
     private int optionsBtnY = 312;
@@ -101,7 +102,7 @@ public class MenuState implements State {
     private final BufferedImage helpOnBtn;
     
     /**helpBtnX BufferedImage of MenuState*/
-    private int helpBtnX = 156;
+    private int helpBtnX = 226;
     
     /**helpBtnY BufferedImage of MenuState*/
     private int helpBtnY = 372;
@@ -121,7 +122,7 @@ public class MenuState implements State {
     private final BufferedImage quitOnBtn;
     
     /**quitBtnX BufferedImage of MenuState*/
-    private int quitBtnX = 156;
+    private int quitBtnX = 226;
     
     /**quitBtnY BufferedImage of MenuState*/
     private int quitBtnY = 432;
@@ -193,6 +194,24 @@ public class MenuState implements State {
     private int versionBtnY = MazeGenerator.getMainHeight() - 40;
     
     
+    /**menuImage BufferedImage of MenuState*/
+    private BufferedImage offscreen;
+    
+    /**waveText BufferedImage of MenuState*/
+    private JPanel waveText;
+    
+    /**textMessage variable of MenuState*/
+    private String textMessage;// = "THIS IS WAVE TEXT EFFECT DEMO!!!";
+    
+    /**textFont variable of MenuState*/
+    private Font textFont = new Font("impact", Font.PLAIN, 150);
+    
+    /**textPositionX variable of MenuState*/
+    private double textPositionX;
+    
+    /**textPositionY variable of MenuState*/
+    private double textPositionY;
+    
     
     
     /**Constructor*/
@@ -236,6 +255,16 @@ public class MenuState implements State {
             Logger.getLogger(MenuState.class.getName()).log(Level.SEVERE, null, ex);
         }
         ////////////////////////////////////////////////////////////////////////////
+        
+        //Setup MenuState: Wave Text Effect
+        waveText = new JPanel();
+        waveText.setSize(MazeGenerator.getMainWidth()+12, MazeGenerator.getMainHeight());
+        
+        offscreen = new BufferedImage(MazeGenerator.getMainWidth()+12, MazeGenerator.getMainHeight(), BufferedImage.TYPE_INT_RGB);
+        
+        textMessage = Game.TITLE+"   "+Game.version;
+        textPositionX = MazeGenerator.getMainWidth()+12;
+        textPositionY = 240;
     }
     
     
@@ -252,7 +281,10 @@ public class MenuState implements State {
     * @param game
     */
     @Override
-    public void tick(StateManager statemanager, Game game){        
+    public void tick(StateManager statemanager, Game game){ 
+        textPositionX -= 2;
+        
+        if(textPositionX == -(MazeGenerator.getMainWidth()+60)*3) textPositionX = MazeGenerator.getMainWidth()+12;
     }
     
     
@@ -271,7 +303,9 @@ public class MenuState implements State {
         MouseInput.MouseButton = 0;
         
         //Draw Background
-        g2d_MenuState.drawImage(menuImage, menuImageX, menuImageY, menuImageW, menuImageH, null);
+        //g2d_MenuState.drawImage(menuImage, menuImageX, menuImageY, menuImageW, menuImageH, null);
+        renderWaveText((Graphics2D) offscreen.getGraphics());
+        g2d_MenuState.drawImage(offscreen, 0, 0, null);
         ////////////////////////////////////////////////////////////////////////////
         
         //Render help text
@@ -433,6 +467,17 @@ public class MenuState implements State {
         g2d.setTransform(oldXForm);
         g2d_MenuState.setTransform(oldXForm);    
     }
+    
+    private void renderWaveText(Graphics2D g2d) {
+        g2d.clearRect(0, 0, MazeGenerator.getMainWidth()+12, MazeGenerator.getMainHeight());
+        g2d.setFont(textFont);
+        g2d.drawString(textMessage, (int) textPositionX, (int) textPositionY);
+        
+        for(int x = 0; x < MazeGenerator.getMainWidth()+12; x++){
+            int y = (int) (-50 + 50 * Math.sin(x * 0.015));
+            g2d.drawImage(offscreen, x, y, x+1, y + offscreen.getHeight(), x, 0, x+1, offscreen.getHeight(), null);
+        }
+    }
 
     
     /**
@@ -442,6 +487,7 @@ public class MenuState implements State {
     @Override
     public void init() {
         System.out.println("MenuState: Initiating Menu State . . .");
+        //textPositionY = 150;
     }
 
     

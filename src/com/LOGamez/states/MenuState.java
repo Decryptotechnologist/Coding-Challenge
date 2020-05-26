@@ -468,6 +468,12 @@ public class MenuState implements State {
         g2d_MenuState.setTransform(oldXForm);    
     }
     
+    /**
+    * renderWaveText(Graphics2D g2d)
+    * 
+    * @author Leo Ono
+    * 
+    */
     private void renderWaveText(Graphics2D g2d) {
         g2d.clearRect(0, 0, MazeGenerator.getMainWidth()+12, MazeGenerator.getMainHeight());
         g2d.setFont(textFont);
